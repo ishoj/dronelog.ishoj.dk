@@ -113,14 +113,14 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
     /////////////////////
     ////   RÆKKE 2   ////
     /////////////////////
-    $output .= "<div class=\"row second\">";
-      // ----------------
-      $output .= "<div class=\"grid-two-thirds\">";
-        // $output .= "<h1>" . $title . "</h1>";
-      $output .= "</div>";
-      // ----------------
-      $output .= "<div class=\"grid-third\"></div>";
-    $output .= "</div>";
+    // $output .= "<div class=\"row second\">";
+    //   // ----------------
+    //   $output .= "<div class=\"grid-two-thirds\">";
+    //     // $output .= "<h1>" . $title . "</h1>";
+    //   $output .= "</div>";
+    //   // ----------------
+    //   $output .= "<div class=\"grid-third\"></div>";
+    // $output .= "</div>";
 
     /////////////////////
     ////   RÆKKE 3   ////
@@ -130,179 +130,56 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
       $output .= "<div class=\"grid-two-thirds\">";
         $output .= "<!-- ARTIKEL TOP START -->";
         $output .= "<div class=\"artikel-top\">";
-          // FOTO
-          $output .= "<!-- FOTO START -->";
-          if($node->field_os2web_base_field_image) {
-            hide($content['field_image_flexslider']);
-            $output .= render($content['field_os2web_base_field_image']);
-            if($node->field_billedtekst) {
-              $output .= "<p class=\"foto-tekst\">" . $node->field_billedtekst['und'][0]['value'] . "</p>";
-            }
-          }
-          $output .= "<!-- FOTO SLUT -->";
 
-          // FLEXSLIDER
-          $output .= "<!-- FLEXSLIDER START -->";
-          if(($node->field_image_flexslider) and (!$node->field_os2web_base_field_image)) {
-            $output .= "<div class=\"flexslider\">";
-              $output .= "<ul class=\"slides\">";
-              $length = sizeof($node->field_image_flexslider['und']);
-              for ($i = 0; $i < $length; $i++) {
-                $output .= "<li>" . render($content['field_image_flexslider'][$i]) . "</li>";
-              }
-              $output .= "</ul>";
-            $output .= "</div>";
+          // STED
+          if($node->field_sted) {
+            $output .= "<p><strong>Sted:</strong> " . $node->field_sted['und'][0]['safe_value'] . "</p>";
           }
-          $output .= "<!-- FLEXSLIDER SLUT -->";
 
-          // VIDEO
-          $output .= "<!-- VIDEO START -->";
-          if(($node->field_video) and (!$node->field_os2web_base_field_image) and (!$node->field_image_flexslider)) {
-            $output .= "<div class=\"video-indlejret\">";
-              $output .= "<div class=\"embed-container vimeo\">";
-                $output .= $node->field_video['und'][0]['value'];
-              $output .= "</div>";
-            $output .= "</div>";
-            if ($node->field_videotekst) {
-              $output .= "<p class=\"video-tekst\">" . $node->field_videotekst['und'][0]['value'] . "</p>";
-            }
+          // DATO
+          if($node->field_sted) {
+            $output .= "<p><strong>Dato:</strong> " . format_date($node->field_dato_og_klokkeslaet['und'][0]['value'], 'ugedag_dato_aar_og_klokkeslaet') . "-" . format_date($node->field_dato_og_klokkeslaet['und'][0]['value2'], 'klokkeslaet') . "</p>";
+            // VARIGHED
+            $output .= "<p><strong>Varighed:</strong> " . (date('H:i', (intval($node->field_dato_og_klokkeslaet['und'][0]['value2']) - intval($node->field_dato_og_klokkeslaet['und'][0]['value'])) - 60*60)) . "</p>";
           }
-          $output .= "<!-- VIDEO SLUT -->";
 
+          // PILOT
+          if($node->field_pilot) {
+            $node_pilot = node_load($node->field_pilot['und'][0]['target_id']);
+            $output .= "<p><strong>Pilot:</strong> <a href=\"" . drupal_get_path_alias('node/' . $node->field_pilot['und'][0]['target_id']) ."\" title=\"" . $node_pilot->field_navn['und'][0]['safe_value'] . "\">" . $node_pilot->field_navn['und'][0]['safe_value'] . "</a></p>";
+          }
         $output .= "</div>";
         $output .= "<!-- ARTIKEL TOP SLUT -->";
-
-        // UNDEROVERSKRIFT
-        $output .= "<!-- UNDEROVERSKRIFT START -->";
-        if($node->field_os2web_base_field_summary) {
-          $output .= "<h2>" . $node->field_os2web_base_field_summary['und'][0]['safe_value'] . "</h2>";
-        }
-        $output .= "<!-- UNDEROVERSKRIFT SLUT -->";
-
-        // SELVBETJENINGSLØSNING
-        $output .= "<!-- SELBETJENINGSLØSNING START -->";
-        $output .= views_embed_view('selvbetjeningslosning','default', $node->nid);
-        $output .= "<!-- SELBETJENINGSLØSNING SLUT -->";
 
         // TEKSTINDHOLD
         $output .= "<!-- TEKSTINDHOLD START -->";
         hide($content['comments']);
         hide($content['links']);
-        $output .= render($content);
+        $output .= "<p>" . render($content) . "</p>";
         $output .= "<!-- TEKSTINDHOLD SLUT -->";
 
-        // MIKROARTIKLER
-        $output .= "<!-- MIKROARTIKLER START -->";
-        if($node->field_mikroartikler_titel1 or
-          $node->field_mikroartikler_titel2 or
-          $node->field_mikroartikler_titel3 or
-          $node->field_mikroartikler_titel4 or
-          $node->field_mikroartikler_titel5 or
-          $node->field_mikroartikler_titel6 or
-          $node->field_mikroartikler_titel7 or
-          $node->field_mikroartikler_titel8 or
-          $node->field_mikroartikler_titel9 or
-          $node->field_mikroartikler_titel10) {
-
-          $mikroartikel = '<div class="microArticleContainer">';
-
-          if($node->field_mikroartikler_titel1) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle1"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel1['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle1 mArticle">' . $node->field_mikroartikler_tekst1['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel2) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle2"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel2['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle2 mArticle">' . $node->field_mikroartikler_tekst2['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel3) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle3"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel3['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle3 mArticle">' . $node->field_mikroartikler_tekst3['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel4) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle4"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel4['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle4 mArticle">' . $node->field_mikroartikler_tekst4['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel5) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle5"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel5['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle5 mArticle">' . $node->field_mikroartikler_tekst5['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel6) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle6"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel6['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle6 mArticle">' . $node->field_mikroartikler_tekst6['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel7) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle7"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel7['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle7 mArticle">' . $node->field_mikroartikler_tekst7['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel8) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle8"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel8['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle8 mArticle">' . $node->field_mikroartikler_tekst8['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel9) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle9"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel9['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle9 mArticle">' . $node->field_mikroartikler_tekst9['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          if($node->field_mikroartikler_titel10) {
-            $mikroartikel .= '<div class="microArticle"><h2 class="mArticle" id="mArticle10"><span class="sprites-sprite sprite-plus mikroartikel"></span>' . $node->field_mikroartikler_titel10['und'][0]['safe_value'] . '</h2>';
-            $mikroartikel .= '<div class="mArticle10 mArticle">' . $node->field_mikroartikler_tekst10['und'][0]['safe_value'] . '</div></div>';
-          }
-
-          $mikroartikel .= "</div>";
-          $output .= $mikroartikel;
+        // DRONE
+        if($node->field_drone) {
+          $node_drone = node_load($node->field_drone['und'][0]['target_id']);
+          $output .= "<p><strong>Drone:</strong> " . $node_drone->title . "</p>";
         }
-        $output .= "<!-- MIKROARTIKLER SLUT -->";
 
-
-        // PERSONER
-        if($node->field_personer) {
-          $output .= "<!-- PERSONER START -->";
-          $output .= "<div class=\"personer\">";
-            $output .= views_embed_view('personer','default', $node->nid);
-          $output .= "</div>";
-          $output .= "<!-- PERSONER SLUT -->";
+        // BATTERI
+        if($node->field_batteri) {
+          $output .= "<p><strong>Batterier:</strong>";
+          foreach ($node->field_batteri['und'] as $value) {
+            $node_batteri = node_load($value['target_id']);
+            $output .= "<br />" . $node_batteri->title;
+          }
+          $output .= "</p>";
         }
 
 
-        // ------------------------------------------------- //
-        //  S P E C I F I K K E   I N D H O L D S T Y P E R  //
-        // ------------------------------------------------- //
+        // FOTO
 
 
-        // --------------------------------- //
-        //  S P E C I F I K K E   N O D E R  //
-        // --------------------------------- //
+        // NOTE
 
-        if($node->nid == 1634) {
-          $output .= views_embed_view('ture_ish_j_naturcenter_1_klasse_3_klasse','default');
-        }
-        if($node->nid == 1635) {
-          $output .= views_embed_view('ture_ish_j_naturcenter_4_klasse_6_klasse','default');
-        }
-        if($node->nid == 1636) {
-          $output .= views_embed_view('ture_ish_j_naturcenter_7_klasse_10_klasse','default');
-        }
-        if($node->nid == 1638) {
-          $output .= views_embed_view('ture_ish_j_naturcenter_b_rnehaveklasser','default');
-        }
-        if($node->nid == 1639) {
-          $output .= views_embed_view('ture_ish_j_naturcenter_daginstitutioner','default');
-        }
-        if($node->nid == 1640) {
-          $output .= views_embed_view('ture_ish_j_naturcenter_sfoer','default');
-        }
-        // Offentlig ture
-        if($node->nid == 1629) {
-          $output .= json_aktivitetsliste('3121'); // Arrangør: Ishøj Naturcenter = tid 3121
-        }
 
 
         // ----------- //
@@ -318,58 +195,7 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
           $output .= '</div>';
         $output .= '</div>';
 
-        // DIVERSE BOKS
-        $output .= "<!-- DIVERSE BOKS START -->";
-        if($node->field_diverse_boks) {
-          $output .= "<div class=\"diverse-boks\">";
-          $output .= $node->field_diverse_boks['und'][0]['safe_value'];
-          $output .= "</div>";
-        }
-        $output .= "<!-- DIVERSE BOKS SLUT -->";
 
-        // LÆS OGSÅ
-        $output .= "<!-- LÆS OGSÅ START -->";
-        if($node->field_url) {
-          if($node->field_diverse_boks) {
-            $output .= "<hr>";
-          }
-          $output .= "<h2>Læs også</h2>";
-          $output .= "<ul>";
-          foreach ($node->field_url['und'] as $value) {
-            $output .= "<li>";
-              $output .= "<a href=\"" . $value['url'] . "\" title=\"" . $value['title'] . "\">";
-                $output .= $value['title'];
-              $output .= "</a>";
-            $output .= "</li>";
-          }
-          $output .= "</ul>";
-        }
-        $output .= "<!-- LÆS OGSÅ SLUT -->";
-
-        // HVAD SIGER LOVEN?
-        $output .= "<!-- HVAD SIGER LOVEN? START -->";
-        if($node->field_url_2) {
-          if(($node->field_url) or ($node->field_diverse_boks)) {
-            $output .= "<hr>";
-          }
-          $output .= "<h2>Hvad siger loven?</h2>";
-          $output .= "<ul>";
-          foreach ($node->field_url_2['und'] as $value) {
-            $output .= "<li>";
-              $output .= "<a href=\"" . $value['url'] . "\" title=\"" . $value['title'] . "\">";
-                $output .= $value['title'];
-              $output .= "</a>";
-            $output .= "</li>";
-          }
-          $output .= "</ul>";
-        }
-        $output .= "<!-- HVAD SIGER LOVEN? SLUT -->";
-
-        // DEL PÅ SOCIALE MEDIER
-        // Hvis noden er en indholdsside, borger.dk-artikel eller en aktivitet
-        if($node->type == 'os2web_base_contentpage') {
-          include_once drupal_get_path('theme', 'ishoj') . '/includes/del-paa-sociale-medier.php';
-        }
 
         // SENEST OPDATERET
         $output .= "<!-- SENEST OPDATERET START -->";
@@ -391,6 +217,30 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
         //   $output.= render($block['content']);
         // $output .= "</nav>";
 
+
+        // LOG MENU
+        $output .= "<ul class=\"log-menu\">";
+          $output .= "<li class=\"log\">";
+            $output .= "<a href=\"/node/add/log\" title=\"Tilføj log\">Log</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"batteri\">";
+            $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj batteri\">Batteri</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"drone\">";
+            $output .= "<a href=\"/node/add/drone\" title=\"Tilføj drone\">Drone</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"pilot\">";
+            $output .= "<a href=\"/node/add/person\" title=\"Tilføj pilot\">Pilot</a>";
+          $output .= "</li>";
+        $output .= "</ul>";
+
+
+        // LISTE OVER PILOTER
+        $output .= "<ul class=\"dronelog_pilotliste\">";
+          $output .= views_embed_view('dronelog', 'liste_over_piloter');
+        $output .= "</ul>";
+
+
         // BOKSE [HØJRE]
         $output .= '<div class="row bokse-hoejre">';
           $output .= '<div class="grid-full">';
@@ -406,30 +256,7 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
 $output .= "</section>";
 $output .= "<!-- ARTIKEL SLUT -->";
 
-// DIMMER DEL SIDEN
-$output .= "<!-- DIMMER DEL SIDEN START -->";
-// OPRET DEL-PÅ-SOCIALE-MEDIER-KNAPPER,
-// HVIS NODEN ER AF TYPEN INDHOLD, BORGER.DK-ARTIKEL ELLER AKTIVITET
-// if(($node->type == 'os2web_base_contentpage') or ($node->type == 'os2web_borger_dk_article') or ($node->type == 'aktivitet')) {
-  $options = array('absolute' => TRUE);
-  $nid = $node->nid; // Node ID
-  $abs_url = url('node/' . $nid, $options);
-  $output .= "<div class=\"dimmer-delsiden hidden\">";
-    $output .= "<a class=\"breaking-close\" href=\"#\" title=\"Luk\"></a>";
-      $output .= "<ul>";
-        $output .= "<li class=\"sociale-medier\"><a class=\"sprite sprite-facebook\" href=\"https://www.facebook.com/sharer/sharer.php?u=" . $abs_url . "\" title=\"Del siden på Facebook\"><span><span class=\"screen-reader\">Del siden på Facebook</span></span></a></li>";
-        $output .= "<li class=\"sociale-medier\"><a class=\"sprite sprite-twitter\" href=\"https://twitter.com/home?status=" . $title . " " . $abs_url . "\" title=\"Del siden på Twitter\"><span><span class=\"screen-reader\">Del siden på Twitter</span></span></a></li>";
-        $output .= "<li class=\"sociale-medier\"><a class=\"sprite sprite-googleplus\" href=\"https://plus.google.com/share?url=" . $abs_url . "\" title=\"Del siden på Google+\"><span><span class=\"screen-reader\">Del siden på Google+</span></span></a></li>";
-        $output .= "<li class=\"sociale-medier\"><a class=\"sprite sprite-linkedin\" href=\"https://www.linkedin.com/shareArticle?url=" . $abs_url . "&title=" . $title . "&summary=&source=&mini=true\" title=\"Del siden på LinkedIn\"><span><span class=\"screen-reader\">Del siden på LinkedIn</span></span></a></li>";
-        $output .= "<li class=\"sociale-medier\"><a class=\"sprite sprite-mail\" href=\"mailto:?subject=" . $title . "&body=" . $abs_url . "\" title=\"Send som e-mail\"><span><span class=\"screen-reader\">Send som e-mail</span></span></a></li>";
-        $output .= "<li class=\"sociale-medier\"><a class=\"sprite sprite-link\" href=\"#\" title=\"Del link\"><span><span class=\"screen-reader\">Del link</span></span></a></li>";
-      $output .= "</ul>";
-      $output .= "<div class=\"link-url\">";
-      $output .= "<textarea>" . $abs_url . "</textarea>";
-    $output .= "</div>";
-  $output .= "</div>";
-// }
-$output .= "<!-- DIMMER DEL SIDEN SLUT -->";
+
 
 // BREAKING
 // $output .= views_embed_v$iew('kriseinformation','nodevisning', $node->nid);

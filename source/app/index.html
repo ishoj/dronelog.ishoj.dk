@@ -105,6 +105,31 @@
         <div class="row">
           <div class="grid-two-thirds">
             <p class="breadcrumbs"><a href="/" title="Gå til forsiden">Forside</a> / <a href="/skoler-og-institutioner" class="active-trail">For skoler og institutioner</a> / 1. klasse - 3. klasse</p>
+
+
+            <button onclick="getLocation()">Try It</button>
+
+            <p id="demo"></p>
+
+            <script>
+            var x = document.getElementById("demo");
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
+
+            function showPosition(position) {
+                x.innerHTML = "Latitude: " + position.coords.latitude +
+                "<br>Longitude: " + position.coords.longitude;
+            }
+            </script>
+
+
+
           </div>
         </div>
         <!-- Node nvigation -->

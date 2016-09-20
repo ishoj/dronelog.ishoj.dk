@@ -72,7 +72,16 @@
  * @ingroup themeable
  */
  include_once drupal_get_path('theme', 'ishoj') . '/includes/sites_functions.php';
+
+// Hvis man ikke er logget ind, så henvises til forsiden
+if (!$logged_in) {
+  drupal_goto('/');
+}
+
 ?>
+
+
+
 
 
 
@@ -154,63 +163,7 @@
       </div>
       <!-- CONTENT SLUT -->
 
-      <!-- FOOTER-BG START -->
-      <!-- <div class="footer-bg-outer">
-        <div class="footer-bg"></div>
-      </div> -->
-      <!-- FOOTER-BG SLUT -->
 
-      <!-- FOOTER START -->
-      <footer data-role="footer">
-        <div class="container">
-          <div class="row">
-            <div class="grid-third">
-              <?php //print render($page['footer_kontakt']); ?>
-              <?php print views_embed_view('kontakt_kle','default', $node->field_os2web_base_field_kle_ref['und'][0][tid]); ?>
-              <?php
-              // REDIGÉR-KONTAKTOPLYSNINGER-KNAP
-              if($logged_in) {
-                print "<div class=\"edit-node\"><a href=\"/taxonomy/term/2644/edit?destination=admin/structure/taxonomy/kontakt\" title=\"Ret kontaktoplysninger\"><span>Ret kontaktoplysninger</span></a></div>";
-              }
-              ?>
-
-             <!-- <h3>Ishøj Kommune</h3>
-              <p>Ishøj Store Torv 20<br />
-              2635 Ishøj<br />
-              Tlf. 43 57 75 75</p>
-              <p><a href="" title="">ishojkommune@ishoj.dk</a></p>
--->
-            </div>
-            <div class="grid-third sociale-medier">
-              <?php print render($page['footer_sociale']); ?>
-              <h3>Følg os på sociale medier</h3>
-              <p>
-                <a class="sprite sprite-facebook footer" href="https://www.facebook.com/ishojnaturcenter" title="Følg Ishøj Naturcenter på Facebook"><span><span class="screen-reader">Følg Ishøj Naturcenter på Facebook</span></span></a>
-                <!-- <a class="sprite sprite-facebook footer" href="http://www.facebook.com/ishojkommune" title="Følg Ishøj Kommune på Facebook"><span><span class="screen-reader">Følg Ishøj Kommune på Facebook</span></span></a>
-                <a class="sprite sprite-linkedin footer" href="https://www.linkedin.com/company/ishoj-kommune" title="Følg Ishøj Kommune på LinkedIn"><span><span class="screen-reader">Følg Ishøj Kommune på LinkedIn</span></span></a>
-                <a class="sprite sprite-twitter footer" href="http://www.twitter.com/ishojkommune" title="Følg Ishøj Kommune på Twitter"><span><span class="screen-reader">Følg Ishøj Kommune på Twitter</span></span></a>
-                <a class="sprite sprite-youtube footer" href="http://www.youtube.com/tvishoj" title="Følg Ishøj Kommune på Youtube"><span><span class="screen-reader">Følg Ishøj Kommune på Youtube</span></span></a> -->
-              </p>
-            </div>
-            <div class="grid-third">
-              <h3>Andre kommunale hjemmesider</h3>
-              <?php print json_andre_kommunale_hjemmesider(); ?>
-              <!-- BYVÅBEN START -->
-              <?php
-                $logoContent = "<div class=\"logo-container\">";
-                $logoContent .= "<a class=\"logo-site\" href=\"http://www.ishoj.dk\" title=\"Ishøj Kommunes hjemmeside\">";
-                  $logoContent .= "<img src=\"http://www.ishoj.dk/sites/default/files/byvaaben.png\" alt=\"Gå til forsiden\"/>";
-                  $logoContent .= "<span>Ishøj Kommune</span>";
-                $logoContent .= "</a>";
-                $logoContent .= "</div>";
-                print $logoContent;
-              ?>
-              <!-- BYVÅBEN SLUT -->
-            </div>
-          </div>
-        </div>
-      </footer>
-      <!-- FOOTER SLUT-->
 
       <?php print breaking(); ?>
 
