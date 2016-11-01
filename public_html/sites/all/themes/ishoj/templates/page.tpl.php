@@ -138,23 +138,23 @@ if (!$logged_in) {
       <!-- DRUPAL MESSAGES SLUT -->
 
 
-      <?php if($logged_in): ?>
+      <!-- <?php //if($logged_in): ?> -->
         <!-- REDAKTØRMENU START -->
-        <section class="redaktormenu">
+        <!-- <section class="redaktormenu">
           <div class="container">
             <div class="row">
               <div class="grid-full">
                 <div class="editor">
                   <div class="editorInner">
-                    <?php print render($page['editor']); ?>
+                    <?php //print render($page['editor']); ?>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
         <!-- REDAKTØRMENU SLUT -->
-      <?php endif; ?>
+      <!-- <?php //endif; ?> -->
 
 
       <!-- CONTENT START -->

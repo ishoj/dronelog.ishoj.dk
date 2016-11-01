@@ -260,18 +260,24 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
 
 
         // LOG MENU
-        $output .= "<ul class=\"log-menu\">";
+        $output .= "<ul class=\"log-menu hide-me\">";
+          $output .= "<li class=\"forside\">";
+            $output .= "<a href=\"/\" title=\"Forside\">Forside</a>";
+          $output .= "</li>";
           $output .= "<li class=\"log\">";
             $output .= "<a href=\"/node/add/log\" title=\"Opret log\">Opret log</a>";
           $output .= "</li>";
           $output .= "<li class=\"batteri\">";
-            $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj batteri\">Tilføj nyt batteri</a>";
+            $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj nyt batteri\">Tilføj nyt batteri</a>";
           $output .= "</li>";
           $output .= "<li class=\"drone\">";
-            $output .= "<a href=\"/node/add/drone\" title=\"Tilføj drone\">Tilføj ny drone</a>";
+            $output .= "<a href=\"/node/add/drone\" title=\"Tilføj ny drone\">Tilføj ny drone</a>";
           $output .= "</li>";
           $output .= "<li class=\"pilot\">";
-            $output .= "<a href=\"/node/add/person\" title=\"Tilføj pilot\">Tilføj ny pilot</a>";
+            $output .= "<a href=\"/node/add/person\" title=\"Tilføj ny pilot\">Tilføj ny pilot</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"exit\">";
+            $output .= "<a href=\"/user/logout\" title=\"Log ud\">Log ud</a>";
           $output .= "</li>";
         $output .= "</ul>";
 
@@ -281,6 +287,10 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
           $output .= views_embed_view('dronelog', 'liste_over_piloter');
         $output .= "</ul>";
 
+
+        // Export dronelog
+        $output .= "<p>&nbsp;</p><p><strong><a href=\"http://dronelog.ishoj.dk/infotv/" . $node->nid . "/dronelog.xls\">Download flyvelogs (alle logs)</a></strong></p>";
+        $output .= "<p><strong><a href=\"http://dronelog.ishoj.dk/infotv/seneste/" . $node->nid . "/dronelog_seneste_aar.xls\">Download flyvelogs (seneste år)</a></strong></p>";
 
 
 

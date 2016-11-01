@@ -126,23 +126,23 @@
       <!-- DRUPAL MESSAGES SLUT -->
 
 
-      <?php if($logged_in): ?>
+      <!-- <?php //if($logged_in): ?> -->
         <!-- REDAKTØRMENU START -->
-        <section class="redaktormenu">
+        <!-- <section class="redaktormenu">
           <div class="container">
             <div class="row">
               <div class="grid-full">
                 <div class="editor">
                   <div class="editorInner">
-                    <?php print render($page['editor']); ?>
+                    <?php //print render($page['editor']); ?>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
         <!-- REDAKTØRMENU SLUT -->
-      <?php endif; ?>
+      <!-- <?php //endif; ?> -->
 
 
       <!-- CONTENT START -->
@@ -234,9 +234,6 @@
                   $output .= "<ul class=\"dronelog_liste\">";
                     $output .= views_embed_view('dronelog', 'liste_over_alle_logs');
                   $output .= "</ul>";
-
-                  $output .= "<p><strong><a href=\"/export-logs/dronelog.xls\">Download</a></strong></p>";
-                  // $output .= "<p><a href=\"/export-logs/1698/dronelog.xls\">Download</a></p>";
 
 
                   $output .= "<!-- ARTIKEL TOP START -->";
@@ -433,18 +430,24 @@
                 $output .= "<div class=\"grid-third\">";
 
                 // LOG MENU
-                $output .= "<ul class=\"log-menu\">";
+                $output .= "<ul class=\"log-menu hide-me\">";
+                  $output .= "<li class=\"forside\">";
+                    $output .= "<a href=\"/\" title=\"Forside\">Forside</a>";
+                  $output .= "</li>";
                   $output .= "<li class=\"log\">";
-                    $output .= "<a href=\"/node/add/log\" title=\"Tilføj log\">Log</a>";
+                    $output .= "<a href=\"/node/add/log\" title=\"Opret log\">Opret log</a>";
                   $output .= "</li>";
                   $output .= "<li class=\"batteri\">";
-                    $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj batteri\">Batteri</a>";
+                    $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj nyt batteri\">Tilføj nyt batteri</a>";
                   $output .= "</li>";
                   $output .= "<li class=\"drone\">";
-                    $output .= "<a href=\"/node/add/drone\" title=\"Tilføj drone\">Drone</a>";
+                    $output .= "<a href=\"/node/add/drone\" title=\"Tilføj ny drone\">Tilføj ny drone</a>";
                   $output .= "</li>";
                   $output .= "<li class=\"pilot\">";
-                    $output .= "<a href=\"/node/add/person\" title=\"Tilføj pilot\">Pilot</a>";
+                    $output .= "<a href=\"/node/add/person\" title=\"Tilføj ny pilot\">Tilføj ny pilot</a>";
+                  $output .= "</li>";
+                  $output .= "<li class=\"exit\">";
+                    $output .= "<a href=\"/user/logout\" title=\"Log ud\">Log ud</a>";
                   $output .= "</li>";
                 $output .= "</ul>";
 
@@ -454,6 +457,17 @@
                   $output .= views_embed_view('dronelog', 'liste_over_piloter');
                 $output .= "</ul>";
 
+
+                // Export dronelog
+                $output .= "<p>&nbsp;</p><p><strong><a href=\"http://dronelog.ishoj.dk/infotv/" . $node->nid . "/dronelog.xls\"><span class=\"excel\"></span>Download flyvelogs (alle logs)</a></strong></p>";
+                $output .= "<p><strong><a href=\"http://dronelog.ishoj.dk/infotv/seneste/" . $node->nid . "/dronelog_seneste_aar.xls\"><span class=\"excel\"></span>Download flyvelogs (seneste år)</a></strong></p>";
+
+
+                // $output .= "<a href=\"http://www.accuweather.com/da/dk/ishoj/123067/weather-forecast/123067\" class=\"aw-widget-legal\">";
+                // $output .= "<!--";
+                // $output .= "By accessing and/or using this code snippet, you agree to AccuWeather’s terms and conditions (in English) which can be found at http://www.accuweather.com/en/free-weather-widgets/terms and AccuWeather’s Privacy Statement (in English) which can be found at http://www.accuweather.com/en/privacy.";
+                // $output .= "-->";
+                // $output .= "</a><div id=\"awcc1477994224042\" class=\"aw-widget-current\"  data-locationkey=\"123067\" data-unit=\"c\" data-language=\"da\" data-useip=\"false\" data-uid=\"awcc1477994224042\"></div><script type=\"text/javascript\" src=\"http://oap.accuweather.com/launch.js\"></script>";
 
                   // MENU TIL UNDERSIDER
                   // $output .= "<nav class=\"menu-underside\">";

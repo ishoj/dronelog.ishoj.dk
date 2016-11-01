@@ -131,6 +131,20 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
         $output .= "<!-- ARTIKEL TOP START -->";
         $output .= "<div class=\"artikel-top\">";
 
+          // FOTO
+          if($node->field_billede) {
+            $output .= "<!-- FOTO START -->";
+            $output = $output . render($content['field_billede']);
+            $output .= "<!-- FOTO SLUT -->";
+          }
+
+          // TEKSTINDHOLD
+          $output .= "<!-- TEKSTINDHOLD START -->";
+          hide($content['comments']);
+          hide($content['links']);
+          $output .= "<p>" . render($content) . "</p>";
+          $output .= "<!-- TEKSTINDHOLD SLUT -->";
+
           // STED
           if($node->field_sted) {
             $output .= "<p><strong>Sted:</strong> " . $node->field_sted['und'][0]['safe_value'] . "</p>";
@@ -143,6 +157,11 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
             $output .= "<p><strong>Varighed:</strong> " . (date('H:i', (intval($node->field_dato_og_klokkeslaet['und'][0]['value2']) - intval($node->field_dato_og_klokkeslaet['und'][0]['value'])) - 60*60)) . "</p>";
           }
 
+          // MAXIMAL FLYVEHØJDE
+          if($node->field_max_flyvehoejde) {
+            $output .= "<p><strong>Max. flyvehøjde:</strong> " . $node->field_max_flyvehoejde['und'][0]['value'] . "</p>";
+          }
+
           // PILOT
           if($node->field_pilot) {
             $node_pilot = node_load($node->field_pilot['und'][0]['target_id']);
@@ -151,17 +170,10 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
         $output .= "</div>";
         $output .= "<!-- ARTIKEL TOP SLUT -->";
 
-        // TEKSTINDHOLD
-        $output .= "<!-- TEKSTINDHOLD START -->";
-        hide($content['comments']);
-        hide($content['links']);
-        $output .= "<p>" . render($content) . "</p>";
-        $output .= "<!-- TEKSTINDHOLD SLUT -->";
-
         // DRONE
         if($node->field_drone) {
           $node_drone = node_load($node->field_drone['und'][0]['target_id']);
-          $output .= "<p><strong>Drone:</strong> " . $node_drone->title . "</p>";
+          $output .= "<p><strong>Drone:</strong> " . $node_drone->title . " (" . $node_drone->field_varemaerke['und'][0]['safe_value'] . ")" . "</p>";
         }
 
         // BATTERI
@@ -174,8 +186,6 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
           $output .= "</p>";
         }
 
-
-        // FOTO
 
 
         // NOTE
@@ -219,18 +229,24 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
 
 
         // LOG MENU
-        $output .= "<ul class=\"log-menu\">";
+        $output .= "<ul class=\"log-menu hide-me\">";
+          $output .= "<li class=\"forside\">";
+            $output .= "<a href=\"/\" title=\"Forside\">Forside</a>";
+          $output .= "</li>";
           $output .= "<li class=\"log\">";
-            $output .= "<a href=\"/node/add/log\" title=\"Tilføj log\">Log</a>";
+            $output .= "<a href=\"/node/add/log\" title=\"Opret log\">Opret log</a>";
           $output .= "</li>";
           $output .= "<li class=\"batteri\">";
-            $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj batteri\">Batteri</a>";
+            $output .= "<a href=\"/node/add/batteri\" title=\"Tilføj nyt batteri\">Tilføj nyt batteri</a>";
           $output .= "</li>";
           $output .= "<li class=\"drone\">";
-            $output .= "<a href=\"/node/add/drone\" title=\"Tilføj drone\">Drone</a>";
+            $output .= "<a href=\"/node/add/drone\" title=\"Tilføj ny drone\">Tilføj ny drone</a>";
           $output .= "</li>";
           $output .= "<li class=\"pilot\">";
-            $output .= "<a href=\"/node/add/person\" title=\"Tilføj pilot\">Pilot</a>";
+            $output .= "<a href=\"/node/add/person\" title=\"Tilføj ny pilot\">Tilføj ny pilot</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"exit\">";
+            $output .= "<a href=\"/user/logout\" title=\"Log ud\">Log ud</a>";
           $output .= "</li>";
         $output .= "</ul>";
 
