@@ -443,6 +443,9 @@
                   $output .= "<li class=\"drone\">";
                     $output .= "<a href=\"/node/add/drone\" title=\"Tilføj ny drone\">Tilføj ny drone</a>";
                   $output .= "</li>";
+                  $output .= "<li class=\"kontrolstation\">";
+                    $output .= "<a href=\"/node/add/kontrolstation\" title=\"Tilføj ny kontrolstation\">Tilføj ny kontrolstation</a>";
+                  $output .= "</li>";
                   $output .= "<li class=\"pilot\">";
                     $output .= "<a href=\"/node/add/person\" title=\"Tilføj ny pilot\">Tilføj ny pilot</a>";
                   $output .= "</li>";

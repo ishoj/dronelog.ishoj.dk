@@ -100,6 +100,9 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
         $output .= "<p class=\"breadcrumbs\">" . theme('breadcrumb', array('breadcrumb'=>drupal_get_breadcrumb())) . " / " . $title . "</p>";
         // Titel
         $output .= "<h1>" . $title . "</h1>";
+        if ($node->field_dronebevisnummer) {
+          $output .= "<p>Dronebevisnummer: " . $node->field_dronebevisnummer['und'][0]['value'] . "</p>";
+        }
       $output .= "</div>";
       // ----------------
       $output .= '<div class="grid-third">';
@@ -272,6 +275,9 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
           $output .= "</li>";
           $output .= "<li class=\"drone\">";
             $output .= "<a href=\"/node/add/drone\" title=\"Tilføj ny drone\">Tilføj ny drone</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"kontrolstation\">";
+            $output .= "<a href=\"/node/add/kontrolstation\" title=\"Tilføj ny kontrolstation\">Tilføj ny kontrolstation</a>";
           $output .= "</li>";
           $output .= "<li class=\"pilot\">";
             $output .= "<a href=\"/node/add/person\" title=\"Tilføj ny pilot\">Tilføj ny pilot</a>";

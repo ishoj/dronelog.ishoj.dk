@@ -167,6 +167,14 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
             $node_pilot = node_load($node->field_pilot['und'][0]['target_id']);
             $output .= "<p><strong>Pilot:</strong> <a href=\"" . drupal_get_path_alias('node/' . $node->field_pilot['und'][0]['target_id']) ."\" title=\"" . $node_pilot->field_navn['und'][0]['safe_value'] . "\">" . $node_pilot->field_navn['und'][0]['safe_value'] . "</a></p>";
           }
+
+          // OPERATIONSTYPE
+          if($node->field_operationstype) {
+            $termOT = taxonomy_term_load($node->field_operationstype['und'][0]['tid']);
+            $output .= "<p><strong>Operationstype:</strong> " . $termOT->name . " </p>";
+          }
+
+
         $output .= "</div>";
         $output .= "<!-- ARTIKEL TOP SLUT -->";
 
@@ -182,6 +190,22 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
           foreach ($node->field_batteri['und'] as $value) {
             $node_batteri = node_load($value['target_id']);
             $output .= "<br />" . $node_batteri->title;
+          }
+          $output .= "</p>";
+        }
+
+        // KONTROLSTATION
+        if($node->field_kontrolstation) {
+          $output .= "<p><strong>Kontrolstation:</strong> ";
+          $output .= node_load($node->field_kontrolstation['und'][0]['target_id'])->title;
+          $output .= "</p>";
+        }
+
+        // HÆNDELSER
+        if ($node->field_haendelser) {
+          $output .= "<p><strong>Hændelser:</strong>";
+          foreach ($node->field_haendelser['und'] as $value) {
+            $output .= "<br />" . taxonomy_term_load($value['tid'])->name;
           }
           $output .= "</p>";
         }
@@ -241,6 +265,9 @@ $output .= "<section id=\"node-" . $node->nid . "\" class=\"" . $classes . " art
           $output .= "</li>";
           $output .= "<li class=\"drone\">";
             $output .= "<a href=\"/node/add/drone\" title=\"Tilføj ny drone\">Tilføj ny drone</a>";
+          $output .= "</li>";
+          $output .= "<li class=\"kontrolstation\">";
+            $output .= "<a href=\"/node/add/kontrolstation\" title=\"Tilføj ny kontrolstation\">Tilføj ny kontrolstation</a>";
           $output .= "</li>";
           $output .= "<li class=\"pilot\">";
             $output .= "<a href=\"/node/add/person\" title=\"Tilføj ny pilot\">Tilføj ny pilot</a>";
